@@ -242,17 +242,16 @@
 
         /* Theme Switcher */
         .theme-switcher {
-            position: absolute;
-            top: 20px;
-            right: 20px;
             display: flex;
             gap: 8px;
-            z-index: 10;
+            justify-content: center;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
         }
 
         .theme-btn {
-            padding: 8px 12px;
-            font-size: 0.75em;
+            padding: 8px 16px;
+            font-size: 0.85em;
             border: none;
             cursor: pointer;
             transition: all 0.2s;
@@ -274,12 +273,6 @@
 
             textarea {
                 height: 250px;
-            }
-
-            .theme-switcher {
-                position: static;
-                justify-content: center;
-                margin-bottom: 15px;
             }
 
             .options-grid {
@@ -978,6 +971,8 @@
             border: 3px solid #ff00ff;
             font-family: 'Press Start 2P', cursive;
             box-shadow: 0 0 10px #ff00ff;
+            font-size: 0.5em;
+            padding: 10px 15px;
         }
 
         .theme-retro .theme-btn:hover {
@@ -1025,11 +1020,6 @@
             font-size: 0.45em;
         }
 
-        .theme-retro .theme-switcher {
-            top: 10px;
-            right: 10px;
-        }
-
         @media (max-width: 768px) {
             .theme-retro h1 {
                 font-size: 1em;
@@ -1047,13 +1037,13 @@
     </style>
 </head>
 <body class="theme-retro">
-    <div class="theme-switcher">
-        <button class="theme-btn" onclick="setTheme('light')">Light</button>
-        <button class="theme-btn" onclick="setTheme('dark')">Dark</button>
-        <button class="theme-btn active" onclick="setTheme('retro')">Retro</button>
-    </div>
-
     <div class="container">
+        <div class="theme-switcher">
+            <button class="theme-btn" onclick="setTheme('light')">Light</button>
+            <button class="theme-btn" onclick="setTheme('dark')">Dark</button>
+            <button class="theme-btn active" onclick="setTheme('retro')">Retro</button>
+        </div>
+
         <h1>Text Deformatter</h1>
         <p class="subtitle">Clean up text from Word documents and make it ready for HTML editors</p>
 
