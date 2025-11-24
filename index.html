@@ -206,6 +206,25 @@
             line-height: 2;
         }
 
+        /* Privacy Badge */
+        .privacy-badge {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            margin: 0 auto 20px;
+            padding: 10px 20px;
+            border-radius: 20px;
+            font-size: 0.85em;
+            font-weight: 600;
+            max-width: fit-content;
+            transition: all 0.3s;
+        }
+
+        .privacy-badge .icon {
+            font-size: 1.2em;
+        }
+
         /* Theme Switcher */
         .theme-switcher {
             position: absolute;
@@ -402,6 +421,12 @@
             color: white;
         }
 
+        .theme-light .privacy-badge {
+            background: #e8f4fd;
+            border: 2px solid #667eea;
+            color: #667eea;
+        }
+
         /* ============================================
            PROFESSIONAL DARK THEME
            ============================================ */
@@ -562,6 +587,12 @@
         .theme-dark .theme-btn.active {
             background: #e94560;
             color: white;
+        }
+
+        .theme-dark .privacy-badge {
+            background: rgba(0, 217, 255, 0.1);
+            border: 2px solid #00d9ff;
+            color: #00d9ff;
         }
 
         /* ============================================
@@ -914,6 +945,16 @@
             box-shadow: 0 0 20px #00ff00;
         }
 
+        .theme-retro .privacy-badge {
+            background: #0d0d1e;
+            border: 3px solid #00ffff;
+            color: #00ffff;
+            font-family: 'Press Start 2P', cursive;
+            font-size: 0.45em;
+            text-shadow: 0 0 5px #00ffff;
+            box-shadow: 0 0 10px #00ffff;
+        }
+
         .theme-retro .theme-switcher {
             top: 10px;
             right: 10px;
@@ -945,6 +986,11 @@
     <div class="container">
         <h1>Text Deformatter</h1>
         <p class="subtitle">Clean up text from Word documents and make it ready for HTML editors</p>
+
+        <div class="privacy-badge">
+            <span class="icon">🔒</span>
+            <span>100% Private - Your text never leaves your browser</span>
+        </div>
 
         <div class="options">
             <h3>Cleaning Options</h3>
