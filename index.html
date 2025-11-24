@@ -4,42 +4,148 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Text Deformatter - Clean Word Formatting</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
     <style>
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
+            image-rendering: pixelated;
+        }
+
+        @keyframes scanline {
+            0% { transform: translateY(-100%); }
+            100% { transform: translateY(100%); }
+        }
+
+        @keyframes flicker {
+            0% { opacity: 0.95; }
+            50% { opacity: 1; }
+            100% { opacity: 0.95; }
+        }
+
+        @keyframes blink {
+            0%, 49% { opacity: 1; }
+            50%, 100% { opacity: 0; }
         }
 
         body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            font-family: 'Press Start 2P', cursive;
+            background: #0a0a0a;
             min-height: 100vh;
             padding: 20px;
             display: flex;
             justify-content: center;
             align-items: center;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background:
+                repeating-linear-gradient(
+                    0deg,
+                    rgba(0, 255, 0, 0.03) 0px,
+                    transparent 1px,
+                    transparent 2px,
+                    rgba(0, 255, 0, 0.03) 3px
+                );
+            pointer-events: none;
+            z-index: 1;
+            animation: scanline 8s linear infinite;
+        }
+
+        body::after {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background:
+                repeating-linear-gradient(
+                    90deg,
+                    rgba(0, 0, 0, 0.5) 0px,
+                    transparent 1px,
+                    transparent 2px,
+                    rgba(0, 0, 0, 0.5) 3px
+                ),
+                repeating-linear-gradient(
+                    0deg,
+                    rgba(0, 0, 0, 0.5) 0px,
+                    transparent 1px,
+                    transparent 2px,
+                    rgba(0, 0, 0, 0.5) 3px
+                );
+            background-size: 3px 3px;
+            pointer-events: none;
+            opacity: 0.1;
+            z-index: 0;
         }
 
         .container {
-            background: white;
-            border-radius: 16px;
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            background: #1a1a2e;
+            border: 6px solid #00ff00;
+            box-shadow:
+                0 0 20px #00ff00,
+                inset 0 0 20px rgba(0, 255, 0, 0.1),
+                0 0 40px rgba(0, 255, 0, 0.3);
             max-width: 1200px;
             width: 100%;
-            padding: 40px;
+            padding: 30px;
+            position: relative;
+            z-index: 2;
+            animation: flicker 3s infinite;
+        }
+
+        .container::before {
+            content: '▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀';
+            position: absolute;
+            top: -3px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 8px;
+            color: #00ff00;
+            letter-spacing: 2px;
         }
 
         h1 {
-            color: #333;
-            margin-bottom: 10px;
-            font-size: 2em;
+            color: #00ff00;
+            margin-bottom: 20px;
+            font-size: 1.5em;
+            text-align: center;
+            text-shadow:
+                0 0 10px #00ff00,
+                0 0 20px #00ff00,
+                0 0 30px #00ff00;
+            letter-spacing: 2px;
+        }
+
+        h1::before {
+            content: '◄ ';
+            color: #ff00ff;
+        }
+
+        h1::after {
+            content: ' ►';
+            color: #ff00ff;
         }
 
         .subtitle {
-            color: #666;
-            margin-bottom: 30px;
-            font-size: 1.1em;
+            color: #00ffff;
+            margin-bottom: 25px;
+            font-size: 0.5em;
+            text-align: center;
+            line-height: 1.6;
+            text-shadow: 0 0 5px #00ffff;
         }
 
         .content {
@@ -56,86 +162,155 @@
 
         .text-box label {
             font-weight: 600;
-            color: #444;
-            margin-bottom: 8px;
-            font-size: 1.1em;
+            color: #ffff00;
+            margin-bottom: 10px;
+            font-size: 0.6em;
+            text-shadow: 0 0 5px #ffff00;
+            text-transform: uppercase;
+        }
+
+        .text-box label::after {
+            content: ' ►';
+            animation: blink 1s infinite;
         }
 
         textarea {
             width: 100%;
-            height: 400px;
+            height: 350px;
             padding: 15px;
-            border: 2px solid #e0e0e0;
-            border-radius: 8px;
+            border: 4px solid #00ffff;
+            background: #0d0d1e;
+            color: #00ff00;
             font-family: 'Courier New', monospace;
-            font-size: 14px;
+            font-size: 13px;
             resize: vertical;
-            transition: border-color 0.3s;
+            box-shadow:
+                0 0 10px #00ffff,
+                inset 0 0 20px rgba(0, 0, 0, 0.8);
+        }
+
+        textarea::placeholder {
+            color: #004400;
         }
 
         textarea:focus {
             outline: none;
-            border-color: #667eea;
+            border-color: #ff00ff;
+            box-shadow:
+                0 0 15px #ff00ff,
+                inset 0 0 20px rgba(0, 0, 0, 0.8);
         }
 
         .button-group {
             display: flex;
-            gap: 10px;
+            gap: 15px;
             flex-wrap: wrap;
+            justify-content: center;
         }
 
         button {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            border: none;
-            padding: 12px 24px;
-            border-radius: 8px;
-            font-size: 1em;
-            font-weight: 600;
+            background: #ff00ff;
+            color: #000;
+            border: 4px solid #ff00ff;
+            padding: 15px 25px;
+            font-size: 0.6em;
+            font-family: 'Press Start 2P', cursive;
             cursor: pointer;
-            transition: transform 0.2s, box-shadow 0.2s;
+            transition: all 0.1s;
+            text-transform: uppercase;
+            box-shadow:
+                0 0 10px #ff00ff,
+                inset 0 0 10px rgba(255, 255, 255, 0.2);
+            position: relative;
+        }
+
+        button::before {
+            content: '[ ';
+        }
+
+        button::after {
+            content: ' ]';
         }
 
         button:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+            background: #ffff00;
+            border-color: #ffff00;
+            color: #000;
+            box-shadow:
+                0 0 20px #ffff00,
+                inset 0 0 10px rgba(255, 255, 255, 0.3);
+            transform: scale(1.05);
         }
 
         button:active {
-            transform: translateY(0);
+            transform: scale(0.95);
+            box-shadow:
+                0 0 5px #ffff00,
+                inset 0 0 5px rgba(0, 0, 0, 0.5);
         }
 
         button.secondary {
-            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            background: #00ffff;
+            border-color: #00ffff;
+            box-shadow:
+                0 0 10px #00ffff,
+                inset 0 0 10px rgba(255, 255, 255, 0.2);
+        }
+
+        button.secondary:hover {
+            background: #00ff00;
+            border-color: #00ff00;
+            box-shadow:
+                0 0 20px #00ff00,
+                inset 0 0 10px rgba(255, 255, 255, 0.3);
         }
 
         button.clear {
-            background: linear-gradient(135deg, #fa709a 0%, #fee140 100%);
+            background: #ff0066;
+            border-color: #ff0066;
+            box-shadow:
+                0 0 10px #ff0066,
+                inset 0 0 10px rgba(255, 255, 255, 0.2);
+        }
+
+        button.clear:hover {
+            background: #ff6600;
+            border-color: #ff6600;
+            box-shadow:
+                0 0 20px #ff6600,
+                inset 0 0 10px rgba(255, 255, 255, 0.3);
         }
 
         .stats {
-            margin-top: 15px;
-            padding: 15px;
-            background: #f5f5f5;
-            border-radius: 8px;
-            font-size: 0.9em;
-            color: #666;
+            margin-top: 10px;
+            padding: 10px;
+            background: #0d0d1e;
+            border: 2px solid #00ff00;
+            font-size: 0.45em;
+            color: #00ff00;
+            text-shadow: 0 0 5px #00ff00;
+            line-height: 1.8;
         }
 
         .stats span {
             font-weight: 600;
-            color: #333;
+            color: #ffff00;
+            text-shadow: 0 0 5px #ffff00;
         }
 
         .notification {
             position: fixed;
             top: 20px;
             right: 20px;
-            background: #4caf50;
-            color: white;
+            background: #00ff00;
+            color: #000;
+            border: 4px solid #00ff00;
             padding: 15px 25px;
-            border-radius: 8px;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            font-size: 0.6em;
+            font-family: 'Press Start 2P', cursive;
+            box-shadow:
+                0 0 20px #00ff00,
+                inset 0 0 10px rgba(255, 255, 255, 0.3);
             opacity: 0;
             transform: translateY(-20px);
             transition: opacity 0.3s, transform 0.3s;
@@ -153,35 +328,59 @@
             }
 
             .container {
-                padding: 20px;
+                padding: 15px;
             }
 
             h1 {
-                font-size: 1.5em;
+                font-size: 1em;
+            }
+
+            .subtitle {
+                font-size: 0.4em;
             }
 
             textarea {
-                height: 300px;
+                height: 250px;
+            }
+
+            button {
+                font-size: 0.5em;
+                padding: 12px 20px;
             }
         }
 
         .features {
-            margin-top: 20px;
-            padding: 20px;
-            background: #f9f9f9;
-            border-radius: 8px;
-            border-left: 4px solid #667eea;
+            margin-top: 25px;
+            padding: 15px;
+            background: #0d0d1e;
+            border: 4px solid #ff00ff;
+            box-shadow:
+                0 0 10px #ff00ff,
+                inset 0 0 10px rgba(255, 0, 255, 0.1);
         }
 
         .features h3 {
-            color: #333;
-            margin-bottom: 10px;
+            color: #ff00ff;
+            margin-bottom: 15px;
+            font-size: 0.65em;
+            text-shadow: 0 0 10px #ff00ff;
+        }
+
+        .features h3::before {
+            content: '★ ';
+            color: #ffff00;
         }
 
         .features ul {
-            list-style-position: inside;
-            color: #666;
-            line-height: 1.8;
+            list-style: none;
+            color: #00ffff;
+            line-height: 2;
+            font-size: 0.45em;
+        }
+
+        .features li::before {
+            content: '► ';
+            color: #00ff00;
         }
     </style>
 </head>
@@ -338,8 +537,21 @@
 
         function showNotification(message, type = 'success') {
             notification.textContent = message;
-            notification.style.background = type === 'error' ? '#f44336' :
-                                          type === 'info' ? '#2196f3' : '#4caf50';
+
+            if (type === 'error') {
+                notification.style.background = '#ff0066';
+                notification.style.borderColor = '#ff0066';
+                notification.style.boxShadow = '0 0 20px #ff0066, inset 0 0 10px rgba(255, 255, 255, 0.3)';
+            } else if (type === 'info') {
+                notification.style.background = '#00ffff';
+                notification.style.borderColor = '#00ffff';
+                notification.style.boxShadow = '0 0 20px #00ffff, inset 0 0 10px rgba(255, 255, 255, 0.3)';
+            } else {
+                notification.style.background = '#00ff00';
+                notification.style.borderColor = '#00ff00';
+                notification.style.boxShadow = '0 0 20px #00ff00, inset 0 0 10px rgba(255, 255, 255, 0.3)';
+            }
+
             notification.classList.add('show');
 
             setTimeout(() => {
