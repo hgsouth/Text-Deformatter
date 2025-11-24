@@ -382,12 +382,165 @@
             content: '► ';
             color: #00ff00;
         }
+
+        .options {
+            margin-bottom: 20px;
+            padding: 15px;
+            background: #0d0d1e;
+            border: 4px solid #ffff00;
+            box-shadow:
+                0 0 10px #ffff00,
+                inset 0 0 10px rgba(255, 255, 0, 0.1);
+        }
+
+        .options h3 {
+            color: #ffff00;
+            margin-bottom: 15px;
+            font-size: 0.65em;
+            text-shadow: 0 0 10px #ffff00;
+        }
+
+        .options h3::before {
+            content: '⚙ ';
+            color: #00ff00;
+        }
+
+        .options-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+
+        .option-item {
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+            padding: 5px;
+            transition: background 0.2s;
+        }
+
+        .option-item:hover {
+            background: rgba(255, 255, 0, 0.1);
+        }
+
+        .option-item input[type="checkbox"] {
+            appearance: none;
+            width: 20px;
+            height: 20px;
+            border: 3px solid #00ffff;
+            background: #0d0d1e;
+            cursor: pointer;
+            position: relative;
+            margin-right: 10px;
+            flex-shrink: 0;
+            box-shadow: 0 0 5px #00ffff;
+        }
+
+        .option-item input[type="checkbox"]:checked {
+            background: #00ff00;
+            border-color: #00ff00;
+            box-shadow: 0 0 10px #00ff00;
+        }
+
+        .option-item input[type="checkbox"]:checked::after {
+            content: '✓';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: #000;
+            font-size: 14px;
+            font-weight: bold;
+        }
+
+        .option-item label {
+            color: #00ffff;
+            font-size: 0.4em;
+            line-height: 1.5;
+            cursor: pointer;
+            text-shadow: 0 0 3px #00ffff;
+            margin: 0;
+            text-transform: none;
+        }
+
+        .option-item label::after {
+            content: '';
+            animation: none;
+        }
+
+        .options-buttons {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .options-buttons button {
+            font-size: 0.5em;
+            padding: 10px 15px;
+        }
+
+        @media (max-width: 768px) {
+            .options-grid {
+                grid-template-columns: 1fr;
+            }
+        }
     </style>
 </head>
 <body>
     <div class="container">
         <h1>Text Deformatter</h1>
         <p class="subtitle">Clean up text from Word documents and make it ready for HTML editors</p>
+
+        <div class="options">
+            <h3>Cleaning Options</h3>
+            <div class="options-grid">
+                <div class="option-item">
+                    <input type="checkbox" id="removeTrailingSpaces" checked onchange="cleanText()">
+                    <label for="removeTrailingSpaces">Remove trailing spaces from lines</label>
+                </div>
+                <div class="option-item">
+                    <input type="checkbox" id="removeMultipleSpaces" checked onchange="cleanText()">
+                    <label for="removeMultipleSpaces">Remove multiple consecutive spaces</label>
+                </div>
+                <div class="option-item">
+                    <input type="checkbox" id="removeNonBreakingSpaces" checked onchange="cleanText()">
+                    <label for="removeNonBreakingSpaces">Remove non-breaking & Unicode spaces</label>
+                </div>
+                <div class="option-item">
+                    <input type="checkbox" id="removeExcessiveLineBreaks" checked onchange="cleanText()">
+                    <label for="removeExcessiveLineBreaks">Remove excessive line breaks (max 2)</label>
+                </div>
+                <div class="option-item">
+                    <input type="checkbox" id="removeTabsAndCarriageReturns" checked onchange="cleanText()">
+                    <label for="removeTabsAndCarriageReturns">Remove tabs & carriage returns</label>
+                </div>
+                <div class="option-item">
+                    <input type="checkbox" id="removeZeroWidth" checked onchange="cleanText()">
+                    <label for="removeZeroWidth">Remove zero-width characters</label>
+                </div>
+                <div class="option-item">
+                    <input type="checkbox" id="convertSmartQuotes" checked onchange="cleanText()">
+                    <label for="convertSmartQuotes">Convert smart quotes to plain quotes</label>
+                </div>
+                <div class="option-item">
+                    <input type="checkbox" id="convertDashes" onchange="cleanText()">
+                    <label for="convertDashes">Convert em/en dashes to hyphens</label>
+                </div>
+                <div class="option-item">
+                    <input type="checkbox" id="convertEllipsis" checked onchange="cleanText()">
+                    <label for="convertEllipsis">Convert ellipsis to three dots</label>
+                </div>
+                <div class="option-item">
+                    <input type="checkbox" id="convertBullets" checked onchange="cleanText()">
+                    <label for="convertBullets">Convert special bullets to asterisks</label>
+                </div>
+            </div>
+            <div class="options-buttons">
+                <button onclick="selectAllOptions()">Select All</button>
+                <button onclick="deselectAllOptions()">Deselect All</button>
+            </div>
+        </div>
 
         <div class="content">
             <div class="text-box">
@@ -414,15 +567,13 @@
         </div>
 
         <div class="features">
-            <h3>What This Tool Removes:</h3>
+            <h3>How to Use:</h3>
             <ul>
-                <li>Extra spaces at the end of lines and paragraphs</li>
-                <li>Multiple consecutive spaces (reduced to single spaces)</li>
-                <li>Non-breaking spaces and special Unicode spaces</li>
-                <li>Excessive line breaks (more than 2 consecutive)</li>
-                <li>Tabs and carriage returns</li>
-                <li>Zero-width characters and other invisible formatting</li>
-                <li>Smart quotes, em dashes, and other special punctuation (converted to plain ASCII)</li>
+                <li>Paste your text from Word into the left box</li>
+                <li>Toggle cleaning options above to customize what gets removed</li>
+                <li>Text is cleaned automatically in real-time</li>
+                <li>Copy the cleaned text and paste it into your HTML/WYSIWYG editor</li>
+                <li>Use "Select All" or "Deselect All" for quick option management</li>
             </ul>
         </div>
     </div>
@@ -455,41 +606,75 @@
                 return;
             }
 
-            // Step 1: Replace carriage returns
-            text = text.replace(/\r\n/g, '\n');
-            text = text.replace(/\r/g, '\n');
+            // Get checkbox states
+            const removeTabsAndCarriageReturns = document.getElementById('removeTabsAndCarriageReturns').checked;
+            const removeNonBreakingSpaces = document.getElementById('removeNonBreakingSpaces').checked;
+            const removeZeroWidth = document.getElementById('removeZeroWidth').checked;
+            const convertSmartQuotes = document.getElementById('convertSmartQuotes').checked;
+            const convertDashes = document.getElementById('convertDashes').checked;
+            const convertEllipsis = document.getElementById('convertEllipsis').checked;
+            const convertBullets = document.getElementById('convertBullets').checked;
+            const removeTrailingSpaces = document.getElementById('removeTrailingSpaces').checked;
+            const removeMultipleSpaces = document.getElementById('removeMultipleSpaces').checked;
+            const removeExcessiveLineBreaks = document.getElementById('removeExcessiveLineBreaks').checked;
+
+            // Step 1: Replace carriage returns (always done for normalization)
+            if (removeTabsAndCarriageReturns) {
+                text = text.replace(/\r\n/g, '\n');
+                text = text.replace(/\r/g, '\n');
+            }
 
             // Step 2: Replace various types of spaces with regular space
-            // Non-breaking space, em space, en space, thin space, hair space, etc.
-            text = text.replace(/[\u00A0\u1680\u180E\u2000-\u200B\u202F\u205F\u3000\uFEFF]/g, ' ');
+            if (removeNonBreakingSpaces) {
+                // Non-breaking space, em space, en space, thin space, hair space, etc.
+                text = text.replace(/[\u00A0\u1680\u180E\u2000-\u200B\u202F\u205F\u3000\uFEFF]/g, ' ');
+            }
 
             // Step 3: Replace tabs with single space
-            text = text.replace(/\t/g, ' ');
+            if (removeTabsAndCarriageReturns) {
+                text = text.replace(/\t/g, ' ');
+            }
 
             // Step 4: Remove zero-width characters
-            text = text.replace(/[\u200B-\u200D\uFEFF]/g, '');
+            if (removeZeroWidth) {
+                text = text.replace(/[\u200B-\u200D\uFEFF]/g, '');
+            }
 
             // Step 5: Replace smart quotes with regular quotes
-            text = text.replace(/[\u2018\u2019]/g, "'"); // Smart single quotes
-            text = text.replace(/[\u201C\u201D]/g, '"'); // Smart double quotes
+            if (convertSmartQuotes) {
+                text = text.replace(/[\u2018\u2019]/g, "'"); // Smart single quotes
+                text = text.replace(/[\u201C\u201D]/g, '"'); // Smart double quotes
+            }
 
             // Step 6: Replace em dash and en dash with regular dash
-            text = text.replace(/[\u2013\u2014]/g, '-');
+            if (convertDashes) {
+                text = text.replace(/[\u2013\u2014]/g, '-');
+            }
 
             // Step 7: Replace ellipsis character with three dots
-            text = text.replace(/\u2026/g, '...');
+            if (convertEllipsis) {
+                text = text.replace(/\u2026/g, '...');
+            }
 
             // Step 8: Remove other common Word special characters
-            text = text.replace(/[\u2022\u2023\u25E6\u2043\u2219]/g, '*'); // Bullet points to asterisk
+            if (convertBullets) {
+                text = text.replace(/[\u2022\u2023\u25E6\u2043\u2219]/g, '*'); // Bullet points to asterisk
+            }
 
             // Step 9: Remove trailing spaces from each line
-            text = text.split('\n').map(line => line.trimEnd()).join('\n');
+            if (removeTrailingSpaces) {
+                text = text.split('\n').map(line => line.trimEnd()).join('\n');
+            }
 
             // Step 10: Replace multiple consecutive spaces with single space
-            text = text.replace(/ {2,}/g, ' ');
+            if (removeMultipleSpaces) {
+                text = text.replace(/ {2,}/g, ' ');
+            }
 
             // Step 11: Reduce excessive line breaks (more than 2 consecutive)
-            text = text.replace(/\n{3,}/g, '\n\n');
+            if (removeExcessiveLineBreaks) {
+                text = text.replace(/\n{3,}/g, '\n\n');
+            }
 
             // Step 12: Trim the entire text (remove leading/trailing whitespace)
             text = text.trim();
@@ -557,6 +742,24 @@
             setTimeout(() => {
                 notification.classList.remove('show');
             }, 3000);
+        }
+
+        function selectAllOptions() {
+            const checkboxes = document.querySelectorAll('.options input[type="checkbox"]');
+            checkboxes.forEach(checkbox => {
+                checkbox.checked = true;
+            });
+            cleanText();
+            showNotification('All options selected', 'info');
+        }
+
+        function deselectAllOptions() {
+            const checkboxes = document.querySelectorAll('.options input[type="checkbox"]');
+            checkboxes.forEach(checkbox => {
+                checkbox.checked = false;
+            });
+            cleanText();
+            showNotification('All options deselected', 'info');
         }
     </script>
 </body>
