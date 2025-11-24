@@ -206,6 +206,21 @@
             line-height: 2;
         }
 
+        .privacy-explanation {
+            margin-top: 25px;
+            padding: 15px;
+            transition: all 0.3s;
+            line-height: 1.8;
+        }
+
+        .privacy-explanation h3 {
+            margin-bottom: 15px;
+        }
+
+        .privacy-explanation p {
+            margin-bottom: 12px;
+        }
+
         /* Privacy Badge */
         .privacy-badge {
             display: flex;
@@ -427,6 +442,22 @@
             color: #667eea;
         }
 
+        .theme-light .privacy-explanation {
+            background: #f9f9f9;
+            border-radius: 8px;
+            border-left: 4px solid #667eea;
+        }
+
+        .theme-light .privacy-explanation h3 {
+            color: #333;
+            font-size: 1.1em;
+        }
+
+        .theme-light .privacy-explanation p {
+            color: #666;
+            font-size: 0.95em;
+        }
+
         /* ============================================
            PROFESSIONAL DARK THEME
            ============================================ */
@@ -593,6 +624,22 @@
             background: rgba(0, 217, 255, 0.1);
             border: 2px solid #00d9ff;
             color: #00d9ff;
+        }
+
+        .theme-dark .privacy-explanation {
+            background: #0f1626;
+            border-radius: 8px;
+            border-left: 4px solid #e94560;
+        }
+
+        .theme-dark .privacy-explanation h3 {
+            color: #e94560;
+            font-size: 1.1em;
+        }
+
+        .theme-dark .privacy-explanation p {
+            color: #a0a0a0;
+            font-size: 0.95em;
         }
 
         /* ============================================
@@ -955,6 +1002,29 @@
             box-shadow: 0 0 10px #00ffff;
         }
 
+        .theme-retro .privacy-explanation {
+            background: #0d0d1e;
+            border: 4px solid #ff00ff;
+            box-shadow:
+                0 0 10px #ff00ff,
+                inset 0 0 10px rgba(255, 0, 255, 0.1);
+        }
+
+        .theme-retro .privacy-explanation h3 {
+            color: #ff00ff;
+            font-size: 0.65em;
+            text-shadow: 0 0 10px #ff00ff;
+        }
+
+        .theme-retro .privacy-explanation h3::before {
+            content: '🔒 ';
+        }
+
+        .theme-retro .privacy-explanation p {
+            color: #00ffff;
+            font-size: 0.45em;
+        }
+
         .theme-retro .theme-switcher {
             top: 10px;
             right: 10px;
@@ -1075,6 +1145,12 @@
                 <li>Copy the cleaned text and paste it into your HTML/WYSIWYG editor</li>
                 <li>Use "Select All" or "Deselect All" for quick option management</li>
             </ul>
+        </div>
+
+        <div class="privacy-explanation">
+            <h3>Your Privacy is Protected</h3>
+            <p>This tool runs entirely in your web browser. When you paste text, it's processed locally on your device using JavaScript—nothing is uploaded to any server. Your text never leaves your computer, and we don't store, track, or have access to anything you paste here.</p>
+            <p>You can verify this yourself: open your browser's developer tools and check the Network tab while using the app. You'll see zero requests being sent. This app even works offline once loaded, proving that no data is being transmitted.</p>
         </div>
     </div>
 
