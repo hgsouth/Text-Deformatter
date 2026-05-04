@@ -461,190 +461,6 @@
         }
 
         /* ============================================
-           PROFESSIONAL DARK THEME
-           ============================================ */
-        body.theme-dark {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
-            background: #1a1a2e;
-        }
-
-        .theme-dark .container {
-            background: #16213e;
-            border-radius: 16px;
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
-            border: 1px solid #2a3f5f;
-        }
-
-        .theme-dark h1 {
-            color: #e94560;
-            font-size: 2em;
-        }
-
-        .theme-dark .subtitle {
-            color: #a0a0a0;
-            font-size: 1.1em;
-        }
-
-        .theme-dark .text-box label {
-            color: #00d9ff;
-            font-size: 1.1em;
-        }
-
-        .theme-dark textarea {
-            border: 2px solid #2a3f5f;
-            border-radius: 8px;
-            background: #0f1626;
-            color: #e0e0e0;
-        }
-
-        .theme-dark textarea::placeholder {
-            color: #555;
-        }
-
-        .theme-dark textarea:focus {
-            border-color: #e94560;
-        }
-
-        .theme-dark button {
-            background: #e94560;
-            color: white;
-            border-radius: 8px;
-            font-size: 1em;
-        }
-
-        .theme-dark button:hover {
-            background: #ff6b6b;
-            box-shadow: 0 5px 15px rgba(233, 69, 96, 0.4);
-        }
-
-        .theme-dark button.secondary {
-            background: #00d9ff;
-            color: #0f1626;
-        }
-
-        .theme-dark button.secondary:hover {
-            background: #00f0ff;
-        }
-
-        .theme-dark button.clear {
-            background: #ffa500;
-            color: #0f1626;
-        }
-
-        .theme-dark button.clear:hover {
-            background: #ffb732;
-        }
-
-        .theme-dark .stats {
-            background: #0f1626;
-            border: 1px solid #2a3f5f;
-            border-radius: 8px;
-            color: #a0a0a0;
-        }
-
-        .theme-dark .stats span {
-            color: #00d9ff;
-        }
-
-        .theme-dark .notification {
-            background: #e94560;
-            color: white;
-            border-radius: 8px;
-            box-shadow: 0 5px 15px rgba(233, 69, 96, 0.4);
-        }
-
-        .theme-dark .options {
-            background: #0f1626;
-            border: 2px solid #e94560;
-            border-radius: 8px;
-        }
-
-        .theme-dark .options h3 {
-            color: #e94560;
-            font-size: 1.2em;
-        }
-
-        .theme-dark .option-item:hover {
-            background: rgba(233, 69, 96, 0.1);
-        }
-
-        .theme-dark .option-item input[type="checkbox"] {
-            border: 2px solid #00d9ff;
-            background: #0f1626;
-        }
-
-        .theme-dark .option-item input[type="checkbox"]:checked {
-            background: #00d9ff;
-            border-color: #00d9ff;
-        }
-
-        .theme-dark .option-item input[type="checkbox"]:checked::after {
-            color: #0f1626;
-        }
-
-        .theme-dark .option-item label {
-            color: #c0c0c0;
-            font-size: 0.9em;
-        }
-
-        .theme-dark .features {
-            background: #0f1626;
-            border-radius: 8px;
-            border-left: 4px solid #e94560;
-        }
-
-        .theme-dark .features h3 {
-            color: #e94560;
-            font-size: 1.1em;
-        }
-
-        .theme-dark .features ul {
-            color: #a0a0a0;
-        }
-
-        .theme-dark .features li::before {
-            content: '• ';
-            color: #00d9ff;
-        }
-
-        .theme-dark .theme-btn {
-            background: #2a3f5f;
-            color: #e0e0e0;
-            border-radius: 6px;
-        }
-
-        .theme-dark .theme-btn:hover {
-            background: #3a4f6f;
-        }
-
-        .theme-dark .theme-btn.active {
-            background: #e94560;
-            color: white;
-        }
-
-        .theme-dark .privacy-badge {
-            background: rgba(0, 217, 255, 0.1);
-            border: 2px solid #00d9ff;
-            color: #00d9ff;
-        }
-
-        .theme-dark .privacy-explanation {
-            background: #0f1626;
-            border-radius: 8px;
-            border-left: 4px solid #e94560;
-        }
-
-        .theme-dark .privacy-explanation h3 {
-            color: #e94560;
-            font-size: 1.1em;
-        }
-
-        .theme-dark .privacy-explanation p {
-            color: #a0a0a0;
-            font-size: 0.95em;
-        }
-
-        /* ============================================
            RETRO GAMING THEME
            ============================================ */
         @keyframes scanline {
@@ -1048,8 +864,7 @@
 <body class="theme-retro">
     <div class="container">
         <div class="theme-switcher">
-            <button class="theme-btn" onclick="setTheme('light')">Light</button>
-            <button class="theme-btn" onclick="setTheme('dark')">Dark</button>
+            <button class="theme-btn" onclick="setTheme('light')">Sage</button>
             <button class="theme-btn active" onclick="setTheme('retro')">Retro</button>
         </div>
 
@@ -1168,7 +983,11 @@
 
         // Load saved theme
         window.addEventListener('DOMContentLoaded', () => {
-            const savedTheme = localStorage.getItem('textDeformatterTheme') || 'retro';
+            let savedTheme = localStorage.getItem('textDeformatterTheme') || 'retro';
+            // If dark theme was saved, default to light since dark is removed
+            if (savedTheme === 'dark') {
+                savedTheme = 'light';
+            }
             setTheme(savedTheme);
         });
 
@@ -1186,10 +1005,8 @@
             // Update notification colors based on theme
             if (theme === 'light') {
                 document.querySelector('.theme-btn:nth-child(1)').classList.add('active');
-            } else if (theme === 'dark') {
-                document.querySelector('.theme-btn:nth-child(2)').classList.add('active');
             } else {
-                document.querySelector('.theme-btn:nth-child(3)').classList.add('active');
+                document.querySelector('.theme-btn:nth-child(2)').classList.add('active');
             }
         }
 
