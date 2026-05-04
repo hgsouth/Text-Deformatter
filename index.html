@@ -1104,6 +1104,10 @@
                     <input type="checkbox" id="convertBullets" checked onchange="cleanText()">
                     <label for="convertBullets">Convert special bullets to asterisks</label>
                 </div>
+                <div class="option-item">
+                    <input type="checkbox" id="formatAsHTML" onchange="cleanText()">
+                    <label for="formatAsHTML">Format as HTML paragraphs (wrap in &lt;p&gt; tags)</label>
+                </div>
             </div>
             <div class="options-buttons">
                 <button onclick="selectAllOptions()">Select All</button>
@@ -1219,6 +1223,7 @@
             const removeTrailingSpaces = document.getElementById('removeTrailingSpaces').checked;
             const removeMultipleSpaces = document.getElementById('removeMultipleSpaces').checked;
             const removeExcessiveLineBreaks = document.getElementById('removeExcessiveLineBreaks').checked;
+            const formatAsHTML = document.getElementById('formatAsHTML').checked;
 
             // Step 1: Replace carriage returns
             if (removeTabsAndCarriageReturns) {
@@ -1279,6 +1284,17 @@
 
             // Step 12: Trim the entire text
             text = text.trim();
+
+            // Step 13: Format as HTML paragraphs if requested
+            if (formatAsHTML) {
+                // Split by double line breaks (paragraphs)
+                const paragraphs = text.split(/\n\n+/);
+                // Wrap each paragraph in <p> tags
+                const htmlParagraphs = paragraphs
+                    .filter(p => p.trim().length > 0)
+                    .map(p => '<p>' + p.replace(/\n/g, ' ') + '</p>');
+                text = htmlParagraphs.join('\n\n');
+            }
 
             outputTextarea.value = text;
             updateStats(text, outputStats);
